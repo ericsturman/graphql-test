@@ -19,7 +19,7 @@ var schema = buildSchema(`
     features: FullCardResult
   }
   type Query {
-    hello: String,
+    hello(name: String): String,
     twoApis: TwoApis
   }
 `);
@@ -32,8 +32,9 @@ const magicUrl = "https://api.magicthegathering.io/v1/types"
 
 // The root provides a resolver function for each API endpoint
 var root = {
-  hello: () => {
-    return 'Hello world!';
+  hello: ({name}) => {
+    console.info("NAME:  ", name)
+    return `Hello ${name || "world"}!`;
   },
   twoApis: async () => {
     const dndData = await superagent.get(dndUrl)
